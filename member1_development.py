@@ -5,6 +5,10 @@ WIDTH = 640
 HEIGHT = 480
 
 
+duck_x = 50
+duck_y = 100
+
+
 def on_update(delta_time):
     pass
 
@@ -14,16 +18,24 @@ def draw_duck(x, y):
     arcade.draw_triangle_filled(x+24, y+40, x+24, y+35, x+30, y+37.5, arcade.color.DARK_RED)
     arcade.draw_circle_filled(x+15, y+45, 3, arcade.color.BLACK)
     arcade.draw_rectangle_filled(x-10,y-32, 3, 15, arcade.color.BROWN)
-    arcade.draw_rectangle_filled(x-10,y-32, 3, 15, arcade.color.BROWN)
+    arcade.draw_rectangle_filled(x+10,y-32, 3, 15, arcade.color.BROWN)
 
 def on_draw():
+    global duck_x
+    global duck_y
     arcade.start_render()
     # Draw in here...
-    draw_duck(100, 50)
+    draw_duck(duck_x, duck_y)
+
 
 
 def on_key_press(key, modifiers):
-    pass
+    global duck_x
+    global duck_y
+
+    duck_y = (-duck_x)**2
+    duck_x += 1
+    duck_y = (-duck_x)**2
 
 
 def on_key_release(key, modifiers):
