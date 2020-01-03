@@ -7,7 +7,7 @@ HEIGHT = 480
 
 duck_x = 50
 duck_y = 100
-
+jump = False
 
 def on_update(delta_time):
     pass
@@ -20,26 +20,30 @@ def draw_duck(x, y):
     arcade.draw_rectangle_filled(x-10,y-32, 3, 15, arcade.color.BROWN)
     arcade.draw_rectangle_filled(x+10,y-32, 3, 15, arcade.color.BROWN)
 
+
 def on_draw():
     global duck_x
     global duck_y
+    global jump
     arcade.start_render()
-    # Draw in here...
+
     draw_duck(duck_x, duck_y)
+
+    if jump == True:
+        duck_x += 1
+        duck_y = -1/400*duck_x*(duck_y - 800)
+
+    
 
 
 
 def on_key_press(key, modifiers):
-    global duck_x
-    global duck_y
-
-    duck_y = (-duck_x)**2
-    duck_x += 1
-    duck_y = (-duck_x)**2
-
+    global jump
+    jump = True
 
 def on_key_release(key, modifiers):
-    pass
+    global jump
+    jump = True
 
 
 def on_mouse_press(x, y, button, modifiers):
