@@ -5,8 +5,8 @@ WIDTH = 640
 HEIGHT = 480
 
 
-duck_x = 50
-duck_y = 100
+duck_x = 0
+duck_y = 0
 jump = False
 
 def on_update(delta_time):
@@ -29,9 +29,9 @@ def on_draw():
 
     draw_duck(duck_x, duck_y)
 
-    if jump == True:
-        duck_x += 1
-        duck_y = -1/400*duck_x*(duck_y - 800)
+    if jump == True and duck_x < 80:
+        duck_x += 3
+        duck_y = -1/10*duck_x*(duck_x-80)
 
     
 
