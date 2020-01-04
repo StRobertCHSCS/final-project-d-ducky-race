@@ -1,13 +1,14 @@
 import arcade
-
+import random
 
 WIDTH = 640
 HEIGHT = 480
 
 
-duck_x = 0
-duck_y = 0
+duck_x = 25
+duck_y = 50
 jump = False
+counter = 0
 
 def on_update(delta_time):
     pass
@@ -20,19 +21,38 @@ def draw_duck(x, y):
     arcade.draw_rectangle_filled(x-10,y-32, 3, 15, arcade.color.BROWN)
     arcade.draw_rectangle_filled(x+10,y-32, 3, 15, arcade.color.BROWN)
 
+def draw_title():
+    arcade.draw_text("D DUCKY RACE", 50, 500, arcade.color.BLACK, 30)
 
 def on_draw():
     global duck_x
     global duck_y
     global jump
+    global counter
     arcade.start_render()
 
     draw_duck(duck_x, duck_y)
 
-    if jump == True and duck_x < 80:
-        duck_x += 3
-        duck_y = -1/10*duck_x*(duck_x-80)
+    counter += 1
+    if 10<counter:
+        x = random.randint(1, 9)
+        y = random.randint(1, 9)
+        if x > y:
+            arcade.draw_text(str(x)+"-"+str(y), 200, 400, arcade.color.BLACK, 25)
+        if y > x:
+            arcade.draw_text(str(y)+"-"+str(x), 200, 400, arcade.color.BLACK, 25)
+    if counter == 40:
+        counter = 0
+        
 
+    if jump == True and duck_x < 104: 
+        duck_x += 3
+        duck_y = -1/10*(duck_x-65)**2 + 130
+    elif duck_x >= 105:
+        while duck_x>25:
+            duck_x-=2
+            duck_y = 50
+        jump = False
     
 
 
@@ -52,7 +72,7 @@ def on_mouse_press(x, y, button, modifiers):
 
 def setup():
     arcade.open_window(WIDTH, HEIGHT, "My Arcade Game")
-    arcade.set_background_color(arcade.color.WHITE)
+    arcade.set_background_color(arcade.color.LIGHT_BLUE)
     arcade.schedule(on_update, 1/60)
 
     # Override arcade window methods
