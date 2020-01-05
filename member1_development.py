@@ -9,6 +9,8 @@ duck_x = 25
 duck_y = 50
 jump = False
 counter = 0
+died = False
+difference = 0
 
 def on_update(delta_time):
     pass
@@ -29,18 +31,21 @@ def on_draw():
     global duck_y
     global jump
     global counter
+    global difference
     arcade.start_render()
 
     draw_duck(duck_x, duck_y)
 
     counter += 1
-    if 10<counter:
-        x = random.randint(1, 9)
-        y = random.randint(1, 9)
-        if x > y:
-            arcade.draw_text(str(x)+"-"+str(y), 200, 400, arcade.color.BLACK, 25)
-        if y > x:
-            arcade.draw_text(str(y)+"-"+str(x), 200, 400, arcade.color.BLACK, 25)
+    first_int = random.randint(1, 9)
+    second_int = random.randint(1, 9)
+    if 10==counter:
+        if first_int > second_int:
+            difference = first_int-second_int
+            arcade.draw_text(str(first_int)+"-"+str(second_int), 200, 400, arcade.color.BLACK, 25)
+        if second_int > first_int:
+            difference = second_int-first_int
+            arcade.draw_text(str(second_int)+"-"+str(first_int), 200, 400, arcade.color.BLACK, 25)
     if counter == 40:
         counter = 0
         
@@ -59,11 +64,28 @@ def on_draw():
 
 def on_key_press(key, modifiers):
     global jump
-    jump = True
+    global difference
+    if difference == 0 and key == arcade.key.KEY_0:
+        jump = True
+    if difference == 1 and key == arcade.key.KEY_1:
+        jump = True
+    if difference == 2 and key == arcade.key.KEY_2:
+        jump = True
+    if difference == 3 and key == arcade.key.KEY_3:
+        jump = True
+    if difference == 4 and key == arcade.key.KEY_4:
+        jump = True
+    if difference == 5 and key == arcade.key.KEY_5:
+        jump = True
+    if difference == 6 and key == arcade.key.KEY_6:
+        jump = True
+    if difference == 7 and key == arcade.key.KEY_7:
+        jump = True
+    if difference == 8 and key == arcade.key.KEY_8:
+        jump = True
 
 def on_key_release(key, modifiers):
-    global jump
-    jump = True
+    pass
 
 
 def on_mouse_press(x, y, button, modifiers):
