@@ -1,13 +1,21 @@
 import arcade
+import random
 
 
 
-WIDTH = 1360
-HEIGHT = 710
-score = 0
+WIDTH = 640
+HEIGHT = 480
+x = 25
+y = 50
+jump = False
+counter = 0
+died = False
+difference = 0
+first_int = random.randint(1, 9)
+second_int = random.randint(1, 9)
 
 current_screen = "menu"
-high_score = 0
+
 
 
 def update(delta_time):
@@ -16,15 +24,36 @@ def update(delta_time):
 def on_draw():
     arcade.start_render()
     if current_screen == "menu":
-        arcade.draw_text('Menu Screen', WIDTH/2 - 400, HEIGHT/2, arcade.color.WHITE, 80)
-        arcade.draw_text('Press Space to Play', WIDTH/2 - 400 , HEIGHT/2 - 100, arcade.color.WHITE, 80)
+        arcade.draw_text("D DUCKY RACE", WIDTH/2 - 200, HEIGHT/2, arcade.color.WHITE, 30)
+        arcade.draw_text('Press Space to Play', WIDTH/2 - 200, HEIGHT/2 - 50, arcade.color.WHITE, 30)
+    if current_screen == "start":
+        arcade.draw_circle_filled(x, y, 25, arcade.color.YELLOW)
+        arcade.draw_circle_filled(x+10, y+38, 15, arcade.color.YELLOW)
+        arcade.draw_triangle_filled(x+24, y+40, x+24, y+35, x+30, y+37.5, arcade.color.DARK_RED)
+        arcade.draw_circle_filled(x+15, y+45, 3, arcade.color.BLACK)
+        arcade.draw_rectangle_filled(x-10,y-32, 3, 15, arcade.color.BROWN)
+        arcade.draw_rectangle_filled(x+10,y-32, 3, 15, arcade.color.BROWN)
 
 def on_key_press(key, modifiers):
-    if key == arcade.key.SPACE:
+    global current_screen
+    if current_screen == "menu":
+        if key == arcade.key.SPACE:
             current_screen = "start"
+
     elif current_screen == "start":
         if key == arcade.key.ESCAPE:
                 current_screen = "menu"
+
+
+    elif current_screen == "high score":
+        if key == arcade.key.ESCAPE:
+            current_screen = "menu"
+
+    elif current_screen == "timer":
+        if key == arcade.key.ESCAPE:
+            current_screen = "menu"
+        elif key == arcade.key.SPACE:
+            timing = False
 
 
 def on_key_release(key, modifiers):
