@@ -21,6 +21,9 @@ started = False
 died = False
 difference = 0
 counter = 0
+first_int = random.randint(1, 9)
+second_int = random.randint(1, 9)
+
 
 def on_update(delta_time):
     pass
@@ -43,6 +46,8 @@ def on_draw():
     global jump
     global difference
     global counter
+    global first_int
+    global second_int
 
     arcade.start_render()
     score = 0
@@ -55,17 +60,17 @@ def on_draw():
         arcade.set_background_color(arcade.color.LIGHT_BLUE)
         counter += 1
         draw_title()
-        if 10==counter:
-            first_int = random.randint(1, 9)
-            second_int = random.randint(1, 9)
+        if 10<=counter<40:
             if first_int > second_int:
                 difference = first_int-second_int
-                arcade.draw_text(str(first_int)+"-"+str(second_int), 200, 400, arcade.color.BLACK, 25)
+                arcade.draw_text(str(first_int)+"-"+str(second_int), 300, 400, arcade.color.BLACK, 25)
             if second_int > first_int:
                 difference = second_int-first_int
-                arcade.draw_text(str(second_int)+"-"+str(first_int), 200, 400, arcade.color.BLACK, 25)
-        if counter == 40:
+                arcade.draw_text(str(second_int)+"-"+str(first_int), 300, 400, arcade.color.BLACK, 25)
+        if counter == 60:
             counter = 0
+            first_int = random.randint(1, 9)
+            second_int = random.randint(1, 9)
         
         #makes the duck jump
         draw_duck(duck_x, duck_y)
@@ -98,6 +103,8 @@ def on_key_press(key, modifiers):
     global jump
     global difference
     global started
+    if started == True and key == arcade.key.SPACE:
+        started = False
     if started == False and died == False:
         started = True
     if started == True and died == False:
