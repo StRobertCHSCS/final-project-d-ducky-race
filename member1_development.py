@@ -15,12 +15,15 @@ HEIGHT = 480
 
 
 duck_x = 25
-duck_y = 50
+duck_y = 48
+person_x = 0
+person_y = 0
 jump = False
 started = False
 died = False
 difference = 0
 counter = 0
+person_counter = 0
 first_int = random.randint(1, 9)
 second_int = random.randint(1, 9)
 
@@ -36,11 +39,14 @@ def draw_duck(x, y):
     arcade.draw_rectangle_filled(x-10,y-32, 3, 15, arcade.color.BROWN)
     arcade.draw_rectangle_filled(x+10,y-32, 3, 15, arcade.color.BROWN)
 
-def draw_title():
-    arcade.draw_text("D DUCKY RACE", 50, 500, arcade.color.BLACK, 30)
-   
+def draw_person(x, y):
+    arcade.draw_rectangle_filled(610+x, 50+y, 3, 30, arcade.color.BLACK)
+    arcade.draw_circle_filled(610+x, 70+y, 15, arcade.color.BLACK)
+    arcade.draw_rectangle_filled(610+x, 50+y, 40, 3, arcade.color.BLACK)
+    arcade.draw_rectangle_filled(600+x, 25+y, 30, 3, arcade.color.BLACK, 50)
+    arcade.draw_rectangle_filled(620+x, 25+y, 30, 3, arcade.color.BLACK, 140)
 
-def on_draw():
+def on_draw(): 
     global duck_x
     global duck_y
     global jump
@@ -51,15 +57,15 @@ def on_draw():
 
     arcade.start_render()
     score = 0
-
+    
     #does random subtraction problems (1 digit only)
     if started == False and died == False:
         arcade.set_background_color(arcade.color.PINK_PEARL)
         arcade.draw_text("WELCOME TO D DUCKY RACE!\nPress Any Key to Start!", 100, 300, arcade.color.BLACK, 30)
     if started == True and died == False:
         arcade.set_background_color(arcade.color.LIGHT_BLUE)
+        draw_person(0, 0)
         counter += 1
-        draw_title()
         if 10<=counter<40:
             if first_int > second_int:
                 difference = first_int-second_int
@@ -74,14 +80,12 @@ def on_draw():
         
         #makes the duck jump
         draw_duck(duck_x, duck_y)
-        if jump == True and duck_x <= 105: 
-            duck_x += 3
-            duck_y = -1/24*(duck_x-65)**2 + 150
-        elif duck_x > 105:
-            while duck_x>25:
-                duck_x-=2
-                duck_y = 50
-            jump = False
+        if jump == True and duck_y<152: 
+            duck_y += 4
+        if duck_y >= 152:
+            duck_y -= 4
+        
+
     
     if died == True and started == True:
         arcade.set_background_color(arcade.color.BLACK)
