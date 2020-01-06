@@ -1,3 +1,12 @@
+"""
+--------------------------------------------------------------------------------------------------------------------
+Name:   member1_development.py
+Purpose:    the development of the first member
+
+Author: LMo
+Created:
+--------------------------------------------------------------------------------------------------------------------
+"""
 import arcade
 import random
 
@@ -8,9 +17,13 @@ HEIGHT = 480
 duck_x = 25
 duck_y = 50
 jump = False
-counter = 0
+started = False
 died = False
 difference = 0
+counter = 0
+first_int = random.randint(1, 9)
+second_int = random.randint(1, 9)
+
 
 def on_update(delta_time):
     pass
@@ -25,39 +38,63 @@ def draw_duck(x, y):
 
 def draw_title():
     arcade.draw_text("D DUCKY RACE", 50, 500, arcade.color.BLACK, 30)
+   
 
 def on_draw():
     global duck_x
     global duck_y
     global jump
-    global counter
     global difference
+    global counter
+    global first_int
+    global second_int
+
     arcade.start_render()
+    score = 0
 
-    draw_duck(duck_x, duck_y)
-
-    counter += 1
-    first_int = random.randint(1, 9)
-    second_int = random.randint(1, 9)
-    if 10==counter:
-        if first_int > second_int:
-            difference = first_int-second_int
-            arcade.draw_text(str(first_int)+"-"+str(second_int), 200, 400, arcade.color.BLACK, 25)
-        if second_int > first_int:
-            difference = second_int-first_int
-            arcade.draw_text(str(second_int)+"-"+str(first_int), 200, 400, arcade.color.BLACK, 25)
-    if counter == 40:
-        counter = 0
+    #does random subtraction problems (1 digit only)
+    if started == False and died == False:
+        arcade.set_background_color(arcade.color.PINK_PEARL)
+        arcade.draw_text("WELCOME TO D DUCKY RACE!\nPress Any Key to Start!", 100, 300, arcade.color.BLACK, 30)
+    if started == True and died == False:
+        arcade.set_background_color(arcade.color.LIGHT_BLUE)
+        counter += 1
+        draw_title()
+        if 10<=counter<40:
+            if first_int > second_int:
+                difference = first_int-second_int
+                arcade.draw_text(str(first_int)+"-"+str(second_int), 300, 400, arcade.color.BLACK, 25)
+            if second_int > first_int:
+                difference = second_int-first_int
+                arcade.draw_text(str(second_int)+"-"+str(first_int), 300, 400, arcade.color.BLACK, 25)
+        if counter == 60:
+            counter = 0
+            first_int = random.randint(1, 9)
+            second_int = random.randint(1, 9)
         
+        #makes the duck jump
+        draw_duck(duck_x, duck_y)
+        if jump == True and duck_x <= 105: 
+            duck_x += 3
+            duck_y = -1/24*(duck_x-65)**2 + 150
+        elif duck_x > 105:
+            while duck_x>25:
+                duck_x-=2
+                duck_y = 50
+            jump = False
+    
+    if died == True and started == True:
+        arcade.set_background_color(arcade.color.BLACK)
 
-    if jump == True and duck_x < 104: 
-        duck_x += 3
-        duck_y = -1/10*(duck_x-65)**2 + 130
-    elif duck_x >= 105:
-        while duck_x>25:
-            duck_x-=2
-            duck_y = 50
-        jump = False
+        dead_emoji = arcade.load_texture("Dead emoji.jpg")
+        arcade.draw_texture_rectangle(300, 370, 200, 100, dead_emoji, 0)
+
+        arcade.draw_text("You have died.\nYour final score is "+str(score), 100, 200, arcade.color.WHITE, 50)
+
+        arcade.draw_rectangle_filled(300, 130, 150, 100, arcade.color.PINK_LAVENDER)
+        arcade.draw_text("PLAY AGAIN", 255, 123, arcade.color.BLACK, 15)
+
+
     
 
 
@@ -65,36 +102,44 @@ def on_draw():
 def on_key_press(key, modifiers):
     global jump
     global difference
-    if difference == 0 and key == arcade.key.KEY_0:
-        jump = True
-    if difference == 1 and key == arcade.key.KEY_1:
-        jump = True
-    if difference == 2 and key == arcade.key.KEY_2:
-        jump = True
-    if difference == 3 and key == arcade.key.KEY_3:
-        jump = True
-    if difference == 4 and key == arcade.key.KEY_4:
-        jump = True
-    if difference == 5 and key == arcade.key.KEY_5:
-        jump = True
-    if difference == 6 and key == arcade.key.KEY_6:
-        jump = True
-    if difference == 7 and key == arcade.key.KEY_7:
-        jump = True
-    if difference == 8 and key == arcade.key.KEY_8:
-        jump = True
+    global started
+    if started == True and key == arcade.key.SPACE:
+        started = False
+    if started == False and died == False:
+        started = True
+    if started == True and died == False:
+        if difference == 0 and key == arcade.key.KEY_0:
+            jump = True
+        if difference == 1 and key == arcade.key.KEY_1:
+            jump = True
+        if difference == 2 and key == arcade.key.KEY_2:
+            jump = True
+        if difference == 3 and key == arcade.key.KEY_3:
+            jump = True
+        if difference == 4 and key == arcade.key.KEY_4:
+            jump = True
+        if difference == 5 and key == arcade.key.KEY_5:
+            jump = True
+        if difference == 6 and key == arcade.key.KEY_6:
+            jump = True
+        if difference == 7 and key == arcade.key.KEY_7:
+            jump = True
+        if difference == 8 and key == arcade.key.KEY_8:
+            jump = True
+    
 
 def on_key_release(key, modifiers):
     pass
 
 
 def on_mouse_press(x, y, button, modifiers):
-    pass
+    global died
+    if 235<x<385 and 80<y<180 and died == True:
+        died = False
 
 
 def setup():
     arcade.open_window(WIDTH, HEIGHT, "My Arcade Game")
-    arcade.set_background_color(arcade.color.LIGHT_BLUE)
     arcade.schedule(on_update, 1/60)
 
     # Override arcade window methods
