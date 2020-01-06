@@ -17,7 +17,6 @@ HEIGHT = 480
 duck_x = 25
 duck_y = 48
 person_x = 0
-person_y = 0
 jump = False
 started = False
 died = False
@@ -39,21 +38,15 @@ def draw_duck(x, y):
     arcade.draw_rectangle_filled(x-10,y-32, 3, 15, arcade.color.BROWN)
     arcade.draw_rectangle_filled(x+10,y-32, 3, 15, arcade.color.BROWN)
 
-def draw_person(x, y):
-    arcade.draw_rectangle_filled(610+x, 50+y, 3, 30, arcade.color.BLACK)
-    arcade.draw_circle_filled(610+x, 70+y, 15, arcade.color.BLACK)
-    arcade.draw_rectangle_filled(610+x, 50+y, 40, 3, arcade.color.BLACK)
-    arcade.draw_rectangle_filled(600+x, 25+y, 30, 3, arcade.color.BLACK, 50)
-    arcade.draw_rectangle_filled(620+x, 25+y, 30, 3, arcade.color.BLACK, 140)
+def draw_person(x):
+    arcade.draw_rectangle_filled(610+x, 50, 3, 30, arcade.color.BLACK)
+    arcade.draw_circle_filled(610+x, 70, 15, arcade.color.BLACK)
+    arcade.draw_rectangle_filled(610+x, 50, 40, 3, arcade.color.BLACK)
+    arcade.draw_rectangle_filled(600+x, 25, 30, 3, arcade.color.BLACK, 50)
+    arcade.draw_rectangle_filled(620+x, 25, 30, 3, arcade.color.BLACK, 140)
 
 def on_draw(): 
-    global duck_x
-    global duck_y
-    global jump
-    global difference
-    global counter
-    global first_int
-    global second_int
+    global duck_x, duck_y, jump, difference, person_counter, counter, first_int, second_int, person_x
 
     arcade.start_render()
     score = 0
@@ -64,7 +57,12 @@ def on_draw():
         arcade.draw_text("WELCOME TO D DUCKY RACE!\nPress Any Key to Start!", 100, 300, arcade.color.BLACK, 30)
     if started == True and died == False:
         arcade.set_background_color(arcade.color.LIGHT_BLUE)
-        draw_person(0, 0)
+        while person_counter<20:
+            person_counter += 1
+        if person_counter%20 == 0:
+            draw_person(person_x)
+            person_x-=10
+
         counter += 1
         if 10<=counter<40:
             if first_int > second_int:
@@ -80,10 +78,15 @@ def on_draw():
         
         #makes the duck jump
         draw_duck(duck_x, duck_y)
-        if jump == True and duck_y<152: 
-            duck_y += 4
-        if duck_y >= 152:
-            duck_y -= 4
+        if jump == True and duck_x <= 105: 
+            duck_x += 3
+            duck_y = -1.3/24*(duck_x-65)**2 + 150
+        elif duck_x > 105:
+            while duck_x>25:
+                duck_x-=1
+                duck_y = 50
+            jump = False
+
         
 
     
