@@ -58,17 +58,6 @@ def on_key_press(key, modifiers):
                 current_screen = "menu"
 
 
-    elif current_screen == "high score":
-        if key == arcade.key.ESCAPE:
-            current_screen = "menu"
-
-    elif current_screen == "timer":
-        if key == arcade.key.ESCAPE:
-            current_screen = "menu"
-        elif key == arcade.key.SPACE:
-            timing = False
-
-
 def on_key_release(key, modifiers):
     pass
 
