@@ -25,6 +25,7 @@ second_int = random.randint(1, 9)
 score = 0
 elapsed_time = 0
 timing  = True
+high_score = 0
 
 
 def on_update(delta_time):
@@ -66,7 +67,7 @@ def draw_person(x):
     arcade.draw_rectangle_filled(620+x, 25, 30, 3, arcade.color.BLACK, 140)
 
 def on_draw(): 
-    global duck_x, duck_y, jump, difference, counter, first_int, second_int, person_x, high_score
+    global duck_x, duck_y, jump, difference, counter, first_int, second_int, person_x
 
     arcade.start_render()
     score = 0
@@ -76,7 +77,7 @@ def on_draw():
         arcade.set_background_color(arcade.color.PINK_PEARL)
         arcade.draw_text("WELCOME TO D DUCKY RACE!\nPress Any Key to Start!", 100, 300, arcade.color.BLACK, 30)
     if current_screen == "high_score":
-        arcade.draw_text(str(high_score), WIDTH / 2-400, HEIGHT / 2 - 100, arcade.color.GUPPIE_GREEN, 80)
+        arcade.draw_text(str(high_score), WIDTH / 2, HEIGHT / 2, arcade.color.GUPPIE_GREEN, 80)
     if current_screen == "start":
         arcade.set_background_color(arcade.color.LIGHT_BLUE)
         arcade.draw_text(str(elapsed_time), WIDTH / 2, HEIGHT / 2, arcade.color.GUPPIE_GREEN, 25)
@@ -133,9 +134,12 @@ def on_key_press(key, modifiers):
             current_screen = "start"
         if key == arcade.key.H:
             current_screen = "high_score"
+        if current_screen == "high_score":
             f = open("high_score", "r")
             high_score = f.read()
             f.close()
+            if key == arcade.key.ESCAPE:
+                current_screen = "menu"
 
     if current_screen == "start":
         if difference == 0 and key == arcade.key.KEY_0:
