@@ -83,7 +83,6 @@ def on_draw():
                 duck_x-=1
                 duck_y = 50
             jump = False      
-
     
     if current_screen == "died":
         arcade.set_background_color(arcade.color.BLACK)
@@ -105,7 +104,7 @@ def on_key_press(key, modifiers):
     global jump
     global difference
     global current_screen
-    
+
     if current_screen == "menu":
         current_screen = "start"
     if current_screen == "start":
