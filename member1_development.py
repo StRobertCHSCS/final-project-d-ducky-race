@@ -80,9 +80,9 @@ def on_draw():
         
         #makes the duck jump
         draw_duck(duck_x, duck_y)
-        if jump == True and duck_y<152: 
+        if jump == True and duck_y<=152: 
             duck_y += 4
-        if duck_y >= 152:
+        if duck_y > 152:
             duck_y -= 4
         
 
