@@ -134,12 +134,12 @@ def on_key_press(key, modifiers):
             current_screen = "start"
         if key == arcade.key.H:
             current_screen = "high_score"
-        if current_screen == "high_score":
-            f = open("high_score", "r")
-            high_score = f.read()
-            f.close()
-            if key == arcade.key.ESCAPE:
-                current_screen = "menu"
+    if current_screen == "high_score":
+        f = open("high_score", "r")
+        high_score = f.read()
+        f.close()
+        if key == arcade.key.ESCAPE:
+            current_screen = "menu"
 
     if current_screen == "start":
         if difference == 0 and key == arcade.key.KEY_0:
@@ -151,7 +151,7 @@ def on_key_press(key, modifiers):
         if difference == 3 and key == arcade.key.KEY_3:
             jump = True
         if difference == 4 and key == arcade.key.KEY_4:
-            jump = Trues
+            jump = True
         if difference == 5 and key == arcade.key.KEY_5:
             jump = True
         if difference == 6 and key == arcade.key.KEY_6:
