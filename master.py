@@ -95,10 +95,6 @@ def on_draw():
         arcade.draw_text("PLAY AGAIN", 255, 123, arcade.color.BLACK, 15)
 
 
-    
-
-
-
 def on_key_press(key, modifiers):
     global jump
     global difference
