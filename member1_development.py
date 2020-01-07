@@ -52,13 +52,13 @@ def on_draw():
     #does random subtraction problems (1 digit only)
     if current_screen == "menu":
         arcade.set_background_color(arcade.color.PINK_PEARL)
-        arcade.draw_text("WELCOME TO D DUCKY RACE!\nPress Any Key to Start!", 100, 300, arcade.color.BLACK, 30)
+        arcade.draw_text("WELCOME TO D DUCKY RACE!\nPress Space to Start!", 100, 300, arcade.color.BLACK, 30)
     if current_screen == "start":
         arcade.set_background_color(arcade.color.LIGHT_BLUE)
-    
-        #for i in range(300, 5000, random.randint(1000, 7000)):
-        draw_person(person_x)
-        person_x -= 10
+
+        for i in range(-100, 1000, 300):
+            draw_person(person_x)
+        
 
         counter += 1
         if 10<=counter<40:
@@ -82,7 +82,7 @@ def on_draw():
             while duck_x>25:
                 duck_x-=1
                 duck_y = 50
-            jump = False      
+            jump = False
     
     if current_screen == "died":
         arcade.set_background_color(arcade.color.BLACK)
@@ -105,7 +105,7 @@ def on_key_press(key, modifiers):
     global difference
     global current_screen
 
-    if current_screen == "menu":
+    if current_screen == "menu" and key == arcade.key.SPACE:
         current_screen = "start"
     if current_screen == "start":
         if difference == 0 and key == arcade.key.KEY_0:
@@ -126,6 +126,9 @@ def on_key_press(key, modifiers):
             jump = True
         if difference == 8 and key == arcade.key.KEY_8:
             jump = True
+        if key == arcade.key.ESCAPE:
+            current_screen = "menu"
+        
     
 
 def on_key_release(key, modifiers):
