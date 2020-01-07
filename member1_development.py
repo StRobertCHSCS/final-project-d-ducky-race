@@ -57,11 +57,12 @@ def on_draw():
         arcade.draw_text("WELCOME TO D DUCKY RACE!\nPress Any Key to Start!", 100, 300, arcade.color.BLACK, 30)
     if started == True and died == False:
         arcade.set_background_color(arcade.color.LIGHT_BLUE)
-        while person_counter<20:
-            person_counter += 1
-        if person_counter%20 == 0:
+        
+        for i in range(2):
+            person_x = -i*300
             draw_person(person_x)
-            person_x-=10
+            if started == True:
+                person_x -= 10
 
         counter += 1
         if 10<=counter<40:
