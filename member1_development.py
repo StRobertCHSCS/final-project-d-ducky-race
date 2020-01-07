@@ -18,11 +18,9 @@ duck_x = 25
 duck_y = 48
 person_x = 0
 jump = False
-started = False
-died = False
+current_screen = "menu"
 difference = 0
 counter = 0
-person_counter = 0
 first_int = random.randint(1, 9)
 second_int = random.randint(1, 9)
 
@@ -46,23 +44,21 @@ def draw_person(x):
     arcade.draw_rectangle_filled(620+x, 25, 30, 3, arcade.color.BLACK, 140)
 
 def on_draw(): 
-    global duck_x, duck_y, jump, difference, person_counter, counter, first_int, second_int, person_x
+    global duck_x, duck_y, jump, difference, counter, first_int, second_int, person_x
 
     arcade.start_render()
     score = 0
     
     #does random subtraction problems (1 digit only)
-    if started == False and died == False:
+    if current_screen == "menu":
         arcade.set_background_color(arcade.color.PINK_PEARL)
         arcade.draw_text("WELCOME TO D DUCKY RACE!\nPress Any Key to Start!", 100, 300, arcade.color.BLACK, 30)
-    if started == True and died == False:
+    if current_screen == "start":
         arcade.set_background_color(arcade.color.LIGHT_BLUE)
-        
-        for i in range(2):
-            person_x = -i*300
-            draw_person(person_x)
-            if started == True:
-                person_x -= 10
+    
+        #for i in range(300, 5000, random.randint(1000, 7000)):
+        draw_person(person_x)
+        person_x -= 10
 
         counter += 1
         if 10<=counter<40:
@@ -86,12 +82,10 @@ def on_draw():
             while duck_x>25:
                 duck_x-=1
                 duck_y = 50
-            jump = False
-
-        
+            jump = False      
 
     
-    if died == True and started == True:
+    if current_screen == "died":
         arcade.set_background_color(arcade.color.BLACK)
 
         dead_emoji = arcade.load_texture("Dead emoji.jpg")
@@ -110,12 +104,11 @@ def on_draw():
 def on_key_press(key, modifiers):
     global jump
     global difference
-    global started
-    if started == True and key == arcade.key.SPACE:
-        started = False
-    if started == False and died == False:
-        started = True
-    if started == True and died == False:
+    global current_screen
+    
+    if current_screen == "menu":
+        current_screen = "start"
+    if current_screen == "start":
         if difference == 0 and key == arcade.key.KEY_0:
             jump = True
         if difference == 1 and key == arcade.key.KEY_1:
