@@ -27,13 +27,13 @@ second_int = random.randint(1, 9)
 person_x_positions = []
 
 def draw_person_animation():
-    for _ in range(2):
-        x_person = random.randrange(200, 400)
-        person_x_positions.append(x_person)
+    for _ in range(3):
+        person_x = random.randrange(-200, 0)
+        person_x_positions.append(person_x)
 
 def on_update(delta_time):
-    for index in range(len(person_x_positions)):
-        person_x_positions[index] -= 5
+    for i in range(len(person_x_positions)):
+        person_x_positions[i] -= 5
 
 def draw_duck(x, y):
     arcade.draw_circle_filled(x, y, 25, arcade.color.YELLOW)
@@ -62,8 +62,8 @@ def on_draw():
     if current_screen == "start":
         arcade.set_background_color(arcade.color.LIGHT_BLUE)
 
-        for x_person in zip(person_x_positions):
-            draw_person(x_person)
+        for person_x in zip(person_x_positions):
+            draw_person(person_x)
         
         #does the random subtraction problems(1 digit only)
         counter += 1
