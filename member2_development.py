@@ -127,8 +127,7 @@ def on_draw():
 
 
 def on_key_press(key, modifiers):
-    global jump, difference, current_screen, timing, high_score
-
+    global jump, difference, current_screen, timing, high_score,
     if current_screen == "menu":
         if key == arcade.key.SPACE:
             current_screen = "start"
@@ -142,6 +141,8 @@ def on_key_press(key, modifiers):
             current_screen = "menu"
 
     if current_screen == "start":
+        timing = True
+        elapsed_time = 0
         if difference == 0 and key == arcade.key.KEY_0:
             jump = True
         if difference == 1 and key == arcade.key.KEY_1:
