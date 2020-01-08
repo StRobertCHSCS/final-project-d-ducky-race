@@ -130,8 +130,10 @@ def on_key_press(key, modifiers):
     global jump, difference, current_screen, timing, high_score
 
     if current_screen == "menu":
+        
         if key == arcade.key.SPACE:
             current_screen = "start"
+            elapsed_time = 0
         if key == arcade.key.H:
             current_screen = "high_score"
     if current_screen == "high_score":
