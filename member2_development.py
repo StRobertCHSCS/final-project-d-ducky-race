@@ -12,7 +12,6 @@ import random
 WIDTH = 640
 HEIGHT = 480
 
-
 duck_x = 25
 duck_y = 48
 person_x = 0
@@ -26,7 +25,8 @@ elapsed_time = 0
 timing  = True
 score = 0
 high_score = 0
-
+person2_x = 0
+person3_x = 0
 
 def on_update(delta_time):
     global elapsed_time, score
@@ -66,10 +66,23 @@ def draw_person(x):
     arcade.draw_rectangle_filled(600-x, 25, 30, 3, arcade.color.BLACK, 50)
     arcade.draw_rectangle_filled(620-x, 25, 30, 3, arcade.color.BLACK, 140)
 
+def draw_person2(x):
+    arcade.draw_rectangle_filled(410-x, 50, 3, 30, arcade.color.BLACK)
+    arcade.draw_circle_filled(410-x, 70, 15, arcade.color.BLACK)
+    arcade.draw_rectangle_filled(410-x, 50, 40, 3, arcade.color.BLACK)
+    arcade.draw_rectangle_filled(400-x, 25, 30, 3, arcade.color.BLACK, 50)
+    arcade.draw_rectangle_filled(420-x, 25, 30, 3, arcade.color.BLACK, 140)
+
+def draw_person3(x):
+    arcade.draw_rectangle_filled(210-x, 50, 3, 30, arcade.color.BLACK)
+    arcade.draw_circle_filled(210-x, 70, 15, arcade.color.BLACK)
+    arcade.draw_rectangle_filled(210-x, 50, 40, 3, arcade.color.BLACK)
+    arcade.draw_rectangle_filled(200-x, 25, 30, 3, arcade.color.BLACK, 50)
+    arcade.draw_rectangle_filled(220-x, 25, 30, 3, arcade.color.BLACK, 140)
+
 def on_draw(): 
-    global duck_x, duck_y, counter, first_int, second_int, jump, difference, person_x
+    global duck_x, duck_y, counter, first_int, second_int, jump, difference, person_x, person2_x, person3_x
     arcade.start_render()
-    
     #does random subtraction problems (1 digit only)
     if current_screen == "menu":
         arcade.set_background_color(arcade.color.PINK_PEARL)
@@ -83,12 +96,24 @@ def on_draw():
     
         #for i in range(300, 5000, random.randint(1000, 7000)):
         
-        if person_x != 600:
-            person_x += 8
+        if person_x < 600:
+            person_x += 10
             draw_person(person_x)
-        elif person_x >= 600:
-            person_x = 0    
+        if person2_x < 400:
+            person2_x += 10
+            draw_person2(person2_x)
+        if person3_x < 200:
+            person3_x += 10
+            draw_person3(person3_x)
+        if person_x >= 600:
+            person_x = 0
             draw_person(person_x)
+        if person2_x >= 400:
+            person2_x = -200
+            draw_person2(person2_x)
+        if person3_x > 200:
+            person3_x = -200
+            draw_person3(person3_x)
 
         counter += 1
         if 10<=counter<40:
