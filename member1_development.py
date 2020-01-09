@@ -18,7 +18,7 @@ duck_x = 25
 duck_y = 48
 person_x = 0
 jump = False
-current_screen = "menu"
+current_screen = "died"
 difference = 0
 counter = 0
 first_int = random.randint(1, 9)
@@ -142,9 +142,9 @@ def on_key_release(key, modifiers):
 
 
 def on_mouse_press(x, y, button, modifiers):
-    global died
-    if 235<x<385 and 80<y<180 and died == True:
-        died = False
+    global current_screen
+    if 235<x<385 and 80<y<180 and current_screen == "died":
+        current_screen = "start"
 
 
 def setup():
