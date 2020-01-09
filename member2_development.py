@@ -60,14 +60,14 @@ def draw_duck(x, y):
     arcade.draw_rectangle_filled(x+10,y-32, 3, 15, arcade.color.BROWN)
 
 def draw_person(x):
-    arcade.draw_rectangle_filled(610+x, 50, 3, 30, arcade.color.BLACK)
-    arcade.draw_circle_filled(610+x, 70, 15, arcade.color.BLACK)
-    arcade.draw_rectangle_filled(610+x, 50, 40, 3, arcade.color.BLACK)
-    arcade.draw_rectangle_filled(600+x, 25, 30, 3, arcade.color.BLACK, 50)
-    arcade.draw_rectangle_filled(620+x, 25, 30, 3, arcade.color.BLACK, 140)
+    arcade.draw_rectangle_filled(610-x, 50, 3, 30, arcade.color.BLACK)
+    arcade.draw_circle_filled(610-x, 70, 15, arcade.color.BLACK)
+    arcade.draw_rectangle_filled(610-x, 50, 40, 3, arcade.color.BLACK)
+    arcade.draw_rectangle_filled(600-x, 25, 30, 3, arcade.color.BLACK, 50)
+    arcade.draw_rectangle_filled(620-x, 25, 30, 3, arcade.color.BLACK, 140)
 
 def on_draw(): 
-    global duck_x, duck_y, counter, first_int, second_int, jump
+    global duck_x, duck_y, counter, first_int, second_int, jump, difference, person_x
     arcade.start_render()
     
     #does random subtraction problems (1 digit only)
@@ -82,7 +82,14 @@ def on_draw():
         arcade.draw_text(str(elapsed_time), WIDTH / 2, HEIGHT / 2, arcade.color.GUPPIE_GREEN, 25)
     
         #for i in range(300, 5000, random.randint(1000, 7000)):
-        draw_person(person_x)
+        
+        if person_x != 600:
+            person_x += 8
+            draw_person(person_x)
+        elif person_x >= 600:
+            person_x = 0    
+            draw_person(person_x)
+
         counter += 1
         if 10<=counter<40:
             if first_int > second_int:
@@ -100,7 +107,7 @@ def on_draw():
         draw_duck(duck_x, duck_y)
         if jump == True and duck_x <= 105: 
             duck_x += 3
-            duck_y = -1.3/24*(x-65)**2 + 150
+            duck_y = -1.3/24*(duck_x-65)**2 + 150
         elif duck_x > 105:
             while duck_x>25:
                 duck_x-=1
@@ -117,11 +124,6 @@ def on_draw():
 
         arcade.draw_rectangle_filled(300, 130, 150, 100, arcade.color.PINK_LAVENDER)
         arcade.draw_text("PLAY AGAIN", 255, 123, arcade.color.BLACK, 15)
-
-
-    
-
-
 
 def on_key_press(key, modifiers):
     global jump, difference, current_screen, timing, high_score, elapsed_time
