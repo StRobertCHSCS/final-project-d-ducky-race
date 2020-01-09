@@ -130,14 +130,22 @@ def on_draw():
         
         #makes the duck jump
         draw_duck(duck_x, duck_y)
-        if jump == True and duck_x <= 105: 
-            duck_x += 3
-            duck_y = -1.3/24*(duck_x-65)**2 + 150
-        elif duck_x > 105:
-            while duck_x>25:
-                duck_x-=1
-                duck_y = 50
-            jump = False      
+        if jump == True and duck_y < 192: 
+            duck_y += 12
+
+        if jump == True and duck_y >= 192:      
+            jump = False
+            duck_y -= 12
+        
+        if jump == False and duck_y > 48:
+            duck_y -= 12
+
+
+        # elif duck_x > 105:
+        #     while duck_x>25:
+        #         duck_x-=1
+        #         duck_y = 50
+        #     jump = False      
     
     if current_screen == "died":
         arcade.set_background_color(arcade.color.BLACK)
