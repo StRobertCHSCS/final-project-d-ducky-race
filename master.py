@@ -12,7 +12,7 @@ import random
 WIDTH = 640
 HEIGHT = 480
 
-duck_x = 25
+duck_x = 280
 duck_y = 48
 person_x = 0
 jump = False
@@ -97,13 +97,13 @@ def on_draw():
         #for i in range(300, 5000, random.randint(1000, 7000)):
         
         if person_x < 600:
-            person_x += 10
+            person_x += 20
             draw_person(person_x)
         if person2_x < 400:
-            person2_x += 10
+            person2_x += 20
             draw_person2(person2_x)
         if person3_x < 200:
-            person3_x += 10
+            person3_x += 20
             draw_person3(person3_x)
         if person_x >= 600:
             person_x = 0
@@ -131,14 +131,14 @@ def on_draw():
         #makes the duck jump
         draw_duck(duck_x, duck_y)
         if jump == True and duck_y < 192: 
-            duck_y += 12
+            duck_y += 24
 
         if jump == True and duck_y >= 192:      
             jump = False
-            duck_y -= 12
+            duck_y -= 24
         
         if jump == False and duck_y > 48:
-            duck_y -= 12
+            duck_y -= 24
 
 
         # elif duck_x > 105:
