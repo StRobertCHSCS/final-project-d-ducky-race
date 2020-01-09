@@ -13,8 +13,8 @@ WIDTH = 640
 HEIGHT = 480
 
 
-x = 25
-y = 48
+duck_x = 25
+duck_y = 48
 person_x = 0
 jump = False
 current_screen = "menu"
@@ -51,8 +51,23 @@ def on_update(delta_time):
                 score = f.read()
                 f.close()
 
+def draw_duck(x, y):
+    arcade.draw_circle_filled(x, y, 25, arcade.color.YELLOW)
+    arcade.draw_circle_filled(x+10, y+38, 15, arcade.color.YELLOW)
+    arcade.draw_triangle_filled(x+24, y+40, x+24, y+35, x+30, y+37.5, arcade.color.DARK_RED)
+    arcade.draw_circle_filled(x+15, y+45, 3, arcade.color.BLACK)
+    arcade.draw_rectangle_filled(x-10,y-32, 3, 15, arcade.color.BROWN)
+    arcade.draw_rectangle_filled(x+10,y-32, 3, 15, arcade.color.BROWN)
+
+def draw_person(x):
+    arcade.draw_rectangle_filled(610+x, 50, 3, 30, arcade.color.BLACK)
+    arcade.draw_circle_filled(610+x, 70, 15, arcade.color.BLACK)
+    arcade.draw_rectangle_filled(610+x, 50, 40, 3, arcade.color.BLACK)
+    arcade.draw_rectangle_filled(600+x, 25, 30, 3, arcade.color.BLACK, 50)
+    arcade.draw_rectangle_filled(620+x, 25, 30, 3, arcade.color.BLACK, 140)
+
 def on_draw(): 
-    global x, y, counter, first_int, second_int, jump
+    global duck_x, duck_y, counter, first_int, second_int, jump
     arcade.start_render()
     
     #does random subtraction problems (1 digit only)
@@ -64,21 +79,10 @@ def on_draw():
         arcade.draw_text(str(high_score), WIDTH / 2, HEIGHT / 2, arcade.color.GUPPIE_GREEN, 80)
     if current_screen == "start":
         arcade.set_background_color(arcade.color.LIGHT_BLUE)
-        arcade.draw_circle_filled(x, y, 25, arcade.color.YELLOW)
-        arcade.draw_circle_filled(x+10, y+38, 15, arcade.color.YELLOW)
-        arcade.draw_triangle_filled(x+24, y+40, x+24, y+35, x+30, y+37.5, arcade.color.DARK_RED)
-        arcade.draw_circle_filled(x+15, y+45, 3, arcade.color.BLACK)
-        arcade.draw_rectangle_filled(x-10,y-32, 3, 15, arcade.color.BROWN)
-        arcade.draw_rectangle_filled(x+10,y-32, 3, 15, arcade.color.BROWN)
-        arcade.draw_rectangle_filled(610+x, 50, 3, 30, arcade.color.BLACK)
-        arcade.draw_circle_filled(610+x, 70, 15, arcade.color.BLACK)
-        arcade.draw_rectangle_filled(610+x, 50, 40, 3, arcade.color.BLACK)
-        arcade.draw_rectangle_filled(600+x, 25, 30, 3, arcade.color.BLACK, 50)
-        arcade.draw_rectangle_filled(620+x, 25, 30, 3, arcade.color.BLACK, 140)
         arcade.draw_text(str(elapsed_time), WIDTH / 2, HEIGHT / 2, arcade.color.GUPPIE_GREEN, 25)
     
         #for i in range(300, 5000, random.randint(1000, 7000)):
-
+        draw_person(person_x)
         counter += 1
         if 10<=counter<40:
             if first_int > second_int:
@@ -93,13 +97,14 @@ def on_draw():
             second_int = random.randint(1, 9)
         
         #makes the duck jump
-        if jump == True and x <= 105: 
-            x += 3
-            y = -1.3/24*(x-65)**2 + 150
-        elif x > 105:
-            while x>25:
-                x-=1
-                y = 50
+        draw_duck(duck_x, duck_y)
+        if jump == True and duck_x <= 105: 
+            duck_x += 3
+            duck_y = -1.3/24*(x-65)**2 + 150
+        elif duck_x > 105:
+            while duck_x>25:
+                duck_x-=1
+                duck_y = 50
             jump = False      
     
     if current_screen == "died":
