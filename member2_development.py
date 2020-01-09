@@ -42,7 +42,7 @@ def on_update(delta_time):
             if f.mode == "r+":
                 score = f.read()
                 f.close()
-        if elapsed_time < float(score):
+        if elapsed_time > float(score):
             f = open("high_score", "w+")
             f.write(str(elapsed_time))
             f.close()

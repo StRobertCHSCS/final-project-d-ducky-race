@@ -12,21 +12,21 @@ import random
 WIDTH = 640
 HEIGHT = 480
 
-
 duck_x = 25
 duck_y = 48
 person_x = 0
 jump = False
-current_screen = "menu"
+current_screen = "died"
 difference = 0
 counter = 0
 first_int = random.randint(1, 9)
 second_int = random.randint(1, 9)
-score = 0
 elapsed_time = 0
 timing  = True
+score = 0
 high_score = 0
-
+person2_x = 0
+person3_x = 0
 
 def on_update(delta_time):
     global elapsed_time, score
@@ -42,7 +42,7 @@ def on_update(delta_time):
             if f.mode == "r+":
                 score = f.read()
                 f.close()
-        if elapsed_time < float(score):
+        if elapsed_time > float(score):
             f = open("high_score", "w+")
             f.write(str(elapsed_time))
             f.close()
@@ -60,22 +60,34 @@ def draw_duck(x, y):
     arcade.draw_rectangle_filled(x+10,y-32, 3, 15, arcade.color.BROWN)
 
 def draw_person(x):
-    arcade.draw_rectangle_filled(610+x, 50, 3, 30, arcade.color.BLACK)
-    arcade.draw_circle_filled(610+x, 70, 15, arcade.color.BLACK)
-    arcade.draw_rectangle_filled(610+x, 50, 40, 3, arcade.color.BLACK)
-    arcade.draw_rectangle_filled(600+x, 25, 30, 3, arcade.color.BLACK, 50)
-    arcade.draw_rectangle_filled(620+x, 25, 30, 3, arcade.color.BLACK, 140)
+    arcade.draw_rectangle_filled(610-x, 50, 3, 30, arcade.color.BLACK)
+    arcade.draw_circle_filled(610-x, 70, 15, arcade.color.BLACK)
+    arcade.draw_rectangle_filled(610-x, 50, 40, 3, arcade.color.BLACK)
+    arcade.draw_rectangle_filled(600-x, 25, 30, 3, arcade.color.BLACK, 50)
+    arcade.draw_rectangle_filled(620-x, 25, 30, 3, arcade.color.BLACK, 140)
+
+def draw_person2(x):
+    arcade.draw_rectangle_filled(410-x, 50, 3, 30, arcade.color.BLACK)
+    arcade.draw_circle_filled(410-x, 70, 15, arcade.color.BLACK)
+    arcade.draw_rectangle_filled(410-x, 50, 40, 3, arcade.color.BLACK)
+    arcade.draw_rectangle_filled(400-x, 25, 30, 3, arcade.color.BLACK, 50)
+    arcade.draw_rectangle_filled(420-x, 25, 30, 3, arcade.color.BLACK, 140)
+
+def draw_person3(x):
+    arcade.draw_rectangle_filled(210-x, 50, 3, 30, arcade.color.BLACK)
+    arcade.draw_circle_filled(210-x, 70, 15, arcade.color.BLACK)
+    arcade.draw_rectangle_filled(210-x, 50, 40, 3, arcade.color.BLACK)
+    arcade.draw_rectangle_filled(200-x, 25, 30, 3, arcade.color.BLACK, 50)
+    arcade.draw_rectangle_filled(220-x, 25, 30, 3, arcade.color.BLACK, 140)
 
 def on_draw(): 
-    global duck_x, duck_y, jump, difference, counter, first_int, second_int, person_x
-
+    global duck_x, duck_y, counter, first_int, second_int, jump, difference, person_x, person2_x, person3_x
     arcade.start_render()
-    score = 0
-    
     #does random subtraction problems (1 digit only)
     if current_screen == "menu":
         arcade.set_background_color(arcade.color.PINK_PEARL)
         arcade.draw_text("WELCOME TO D DUCKY RACE!\nPress Any Key to Start!", 100, 300, arcade.color.BLACK, 30)
+        arcade.draw_text("Click H for high score", 100, 100, arcade.color.BLACK, 30)
     if current_screen == "high_score":
         arcade.draw_text(str(high_score), WIDTH / 2, HEIGHT / 2, arcade.color.GUPPIE_GREEN, 80)
     if current_screen == "start":
@@ -83,8 +95,25 @@ def on_draw():
         arcade.draw_text(str(elapsed_time), WIDTH / 2, HEIGHT / 2, arcade.color.GUPPIE_GREEN, 25)
     
         #for i in range(300, 5000, random.randint(1000, 7000)):
-        draw_person(person_x)
-        person_x -= 10
+        
+        if person_x < 600:
+            person_x += 10
+            draw_person(person_x)
+        if person2_x < 400:
+            person2_x += 10
+            draw_person2(person2_x)
+        if person3_x < 200:
+            person3_x += 10
+            draw_person3(person3_x)
+        if person_x >= 600:
+            person_x = 0
+            draw_person(person_x)
+        if person2_x >= 400:
+            person2_x = -200
+            draw_person2(person2_x)
+        if person3_x > 200:
+            person3_x = -200
+            draw_person3(person3_x)
 
         counter += 1
         if 10<=counter<40:
@@ -121,27 +150,21 @@ def on_draw():
         arcade.draw_rectangle_filled(300, 130, 150, 100, arcade.color.PINK_LAVENDER)
         arcade.draw_text("PLAY AGAIN", 255, 123, arcade.color.BLACK, 15)
 
-
-    
-
-
-
 def on_key_press(key, modifiers):
-    global jump, difference, current_screen, timing, high_score
+    global jump, difference, current_screen, timing, high_score, elapsed_time
 
-    if current_screen == "menu":
-        
+    if current_screen == "menu":       
         if key == arcade.key.SPACE:
             current_screen = "start"
             elapsed_time = 0
+            timing = True
         if key == arcade.key.H:
             current_screen = "high_score"
-    if current_screen == "high_score":
-        f = open("high_score", "r")
-        high_score = f.read()
-        f.close()
-        if key == arcade.key.ESCAPE:
-            current_screen = "menu"
+            f = open("high_score", "r")
+            high_score = f.read()
+            f.close()
+    if key == arcade.key.ESCAPE:
+        current_screen = "menu"
 
     if current_screen == "start":
         if difference == 0 and key == arcade.key.KEY_0:
@@ -173,9 +196,9 @@ def on_key_release(key, modifiers):
 
 
 def on_mouse_press(x, y, button, modifiers):
-    global died
-    if 235<x<385 and 80<y<180 and died == True:
-        died = False
+    global current_screen
+    if 235<x<385 and 80<y<180 and current_screen == "died":
+        current_screen = "start"
 
 
 def setup():
@@ -193,4 +216,4 @@ def setup():
 
 
 if __name__ == '__main__':
-    setup()
+    setup() 
