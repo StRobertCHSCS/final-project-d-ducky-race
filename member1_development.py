@@ -141,11 +141,13 @@ def on_draw():
         if jump == False and duck_y > 48:
             duck_y -= 24
 
-
+        #collision detection
         if duck_x-25<610-person_x<duck_x+25 and duck_y-25<70-person_y<duck_y+25:
             current_screen = "died"
             timing = False
-
+        if duck_x-5<610-person_x<duck_x+25 and duck_y+13<70-person_y<duck_y+43:
+            current_screen = "died"
+            timing = False
     
     if current_screen == "died":
         arcade.set_background_color(arcade.color.BLACK)
