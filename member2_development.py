@@ -12,7 +12,7 @@ import random
 WIDTH = 640
 HEIGHT = 480
 
-duck_x = 25
+duck_x = 280
 duck_y = 48
 person_x = 0
 jump = False
@@ -60,25 +60,26 @@ def draw_duck(x, y):
     arcade.draw_rectangle_filled(x+10,y-32, 3, 15, arcade.color.BROWN)
 
 def draw_person(x):
-    arcade.draw_rectangle_filled(610-x, 50, 3, 30, arcade.color.BLACK)
-    arcade.draw_circle_filled(610-x, 70, 15, arcade.color.BLACK)
-    arcade.draw_rectangle_filled(610-x, 50, 40, 3, arcade.color.BLACK)
-    arcade.draw_rectangle_filled(600-x, 25, 30, 3, arcade.color.BLACK, 50)
-    arcade.draw_rectangle_filled(620-x, 25, 30, 3, arcade.color.BLACK, 140)
+    arcade.draw_rectangle_filled(1310-x, 50, 3, 30, arcade.color.BLACK)
+    arcade.draw_circle_filled(1310-x, 70, 15, arcade.color.BLACK)
+    arcade.draw_rectangle_filled(1310-x, 50, 40, 3, arcade.color.BLACK)
+    arcade.draw_rectangle_filled(1300-x, 25, 30, 3, arcade.color.BLACK, 50)
+    arcade.draw_rectangle_filled(1320-x, 25, 30, 3, arcade.color.BLACK, 140)
 
 def draw_person2(x):
-    arcade.draw_rectangle_filled(410-x, 50, 3, 30, arcade.color.BLACK)
-    arcade.draw_circle_filled(410-x, 70, 15, arcade.color.BLACK)
-    arcade.draw_rectangle_filled(410-x, 50, 40, 3, arcade.color.BLACK)
-    arcade.draw_rectangle_filled(400-x, 25, 30, 3, arcade.color.BLACK, 50)
-    arcade.draw_rectangle_filled(420-x, 25, 30, 3, arcade.color.BLACK, 140)
+    arcade.draw_rectangle_filled(1110-x, 50, 3, 30, arcade.color.BLACK)
+    arcade.draw_circle_filled(1110-x, 70, 15, arcade.color.BLACK)
+    arcade.draw_rectangle_filled(1110-x, 50, 40, 3, arcade.color.BLACK)
+    arcade.draw_rectangle_filled(1100-x, 25, 30, 3, arcade.color.BLACK, 50)
+    arcade.draw_rectangle_filled(1120-x, 25, 30, 3, arcade.color.BLACK, 140)
 
 def draw_person3(x):
-    arcade.draw_rectangle_filled(210-x, 50, 3, 30, arcade.color.BLACK)
-    arcade.draw_circle_filled(210-x, 70, 15, arcade.color.BLACK)
-    arcade.draw_rectangle_filled(210-x, 50, 40, 3, arcade.color.BLACK)
-    arcade.draw_rectangle_filled(200-x, 25, 30, 3, arcade.color.BLACK, 50)
-    arcade.draw_rectangle_filled(220-x, 25, 30, 3, arcade.color.BLACK, 140)
+    arcade.draw_rectangle_filled(910-x, 50, 3, 30, arcade.color.BLACK)
+    arcade.draw_circle_filled(910-x, 70, 15, arcade.color.BLACK)
+    arcade.draw_rectangle_filled(910-x, 50, 40, 3, arcade.color.BLACK)
+    arcade.draw_rectangle_filled(900-x, 25, 30, 3, arcade.color.BLACK, 50)
+    arcade.draw_rectangle_filled(920-x, 25, 30, 3, arcade.color.BLACK, 140)  
+
 
 def on_draw(): 
     global duck_x, duck_y, counter, first_int, second_int, jump, difference, person_x, person2_x, person3_x
@@ -94,25 +95,24 @@ def on_draw():
         arcade.set_background_color(arcade.color.LIGHT_BLUE)
         arcade.draw_text(str(elapsed_time), WIDTH / 2, HEIGHT / 2, arcade.color.GUPPIE_GREEN, 25)
     
-        #for i in range(300, 5000, random.randint(1000, 7000)):
-        
-        if person_x < 600:
-            person_x += 10
+        #for i in range(300, 5000, random.randint(1000, 7000)):    
+        if person_x < 1300:
+            person_x += 15
             draw_person(person_x)
-        if person2_x < 400:
-            person2_x += 10
+        if person2_x < 1100:
+            person2_x += 15
             draw_person2(person2_x)
-        if person3_x < 200:
-            person3_x += 10
+        if person3_x < 900:
+            person3_x += 15
             draw_person3(person3_x)
-        if person_x >= 600:
+        if person_x >= 1300:
             person_x = 0
             draw_person(person_x)
-        if person2_x >= 400:
-            person2_x = -200
+        if person2_x >= 1100:
+            person2_x = 0
             draw_person2(person2_x)
-        if person3_x > 200:
-            person3_x = -200
+        if person3_x >= 900:
+            person3_x = 0
             draw_person3(person3_x)
 
         counter += 1
@@ -130,14 +130,15 @@ def on_draw():
         
         #makes the duck jump
         draw_duck(duck_x, duck_y)
-        if jump == True and duck_x <= 105: 
-            duck_x += 3
-            duck_y = -1.3/24*(duck_x-65)**2 + 150
-        elif duck_x > 105:
-            while duck_x>25:
-                duck_x-=1
-                duck_y = 50
-            jump = False      
+        if jump == True and duck_y < 180: 
+            duck_y += 20
+
+        if jump == True and duck_y >= 180:      
+            jump = False
+            duck_y -= 20
+        
+        if jump == False and duck_y > 48:
+            duck_y -=20
     
     if current_screen == "died":
         arcade.set_background_color(arcade.color.BLACK)
@@ -174,7 +175,7 @@ def on_key_press(key, modifiers):
         if difference == 2 and key == arcade.key.KEY_2:
             jump = True
         if difference == 3 and key == arcade.key.KEY_3:
-            jump = True
+            jump = True   
         if difference == 4 and key == arcade.key.KEY_4:
             jump = True
         if difference == 5 and key == arcade.key.KEY_5:
@@ -196,9 +197,9 @@ def on_key_release(key, modifiers):
 
 
 def on_mouse_press(x, y, button, modifiers):
-    global died
-    if 235<x<385 and 80<y<180 and died == True:
-        died = False
+    global current_screen
+    if 235<x<385 and 80<y<180 and current_screen == "died":
+        current_screen = "start"
 
 
 def setup():
