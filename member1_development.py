@@ -12,9 +12,8 @@ import random
 WIDTH = 640
 HEIGHT = 480
 
-duck_x = 25
+duck_x = 280
 duck_y = 48
-person_x = 0
 jump = False
 current_screen = "died"
 difference = 0
@@ -25,6 +24,8 @@ elapsed_time = 0
 timing  = True
 score = 0
 high_score = 0
+person_x = 0
+person_y = 0
 person2_x = 0
 person3_x = 0
 
@@ -59,12 +60,12 @@ def draw_duck(x, y):
     arcade.draw_rectangle_filled(x-10,y-32, 3, 15, arcade.color.BROWN)
     arcade.draw_rectangle_filled(x+10,y-32, 3, 15, arcade.color.BROWN)
 
-def draw_person(x):
-    arcade.draw_rectangle_filled(610-x, 50, 3, 30, arcade.color.BLACK)
-    arcade.draw_circle_filled(610-x, 70, 15, arcade.color.BLACK)
-    arcade.draw_rectangle_filled(610-x, 50, 40, 3, arcade.color.BLACK)
-    arcade.draw_rectangle_filled(600-x, 25, 30, 3, arcade.color.BLACK, 50)
-    arcade.draw_rectangle_filled(620-x, 25, 30, 3, arcade.color.BLACK, 140)
+def draw_person(x, y):
+    arcade.draw_rectangle_filled(610-x, 50-y, 3, 30, arcade.color.BLACK)
+    arcade.draw_circle_filled(610-x, 70-y, 15, arcade.color.BLACK)
+    arcade.draw_rectangle_filled(610-x, 50-y, 40, 3, arcade.color.BLACK)
+    arcade.draw_rectangle_filled(600-x, 25-y, 30, 3, arcade.color.BLACK, 50)
+    arcade.draw_rectangle_filled(620-x, 25-y, 30, 3, arcade.color.BLACK, 140)
 
 def draw_person2(x):
     arcade.draw_rectangle_filled(410-x, 50, 3, 30, arcade.color.BLACK)
@@ -80,13 +81,8 @@ def draw_person3(x):
     arcade.draw_rectangle_filled(200-x, 25, 30, 3, arcade.color.BLACK, 50)
     arcade.draw_rectangle_filled(220-x, 25, 30, 3, arcade.color.BLACK, 140)
 
-def collision_detection():
-    if duck_x-25<=person_x<=duck_x+25:
-        current_screen == "died"
-
-
 def on_draw(): 
-    global duck_x, duck_y, counter, first_int, second_int, jump, difference, person_x, person2_x, person3_x, current_screen
+    global duck_x, duck_y, current_screen, counter, first_int, second_int, jump, difference, person_x, person_y, person2_x, person3_x, timing
     arcade.start_render()
     #does random subtraction problems (1 digit only)
     if current_screen == "menu":
@@ -102,17 +98,17 @@ def on_draw():
         #for i in range(300, 5000, random.randint(1000, 7000)):
         
         if person_x < 600:
-            person_x += 10
-            draw_person(person_x)
+            person_x += 20
+            draw_person(person_x, person_y)
         if person2_x < 400:
-            person2_x += 10
+            person2_x += 20
             draw_person2(person2_x)
         if person3_x < 200:
-            person3_x += 10
+            person3_x += 20
             draw_person3(person3_x)
         if person_x >= 600:
             person_x = 0
-            draw_person(person_x)
+            draw_person(person_x, person_y)
         if person2_x >= 400:
             person2_x = -200
             draw_person2(person2_x)
@@ -128,24 +124,28 @@ def on_draw():
             if second_int > first_int:
                 difference = second_int-first_int
                 arcade.draw_text(str(second_int)+"-"+str(first_int), 300, 400, arcade.color.BLACK, 25)
-        if counter == 60:
+        if counter == 40:
             counter = 0
             first_int = random.randint(1, 9)
             second_int = random.randint(1, 9)
         
         #makes the duck jump
         draw_duck(duck_x, duck_y)
-        if jump == True and duck_x <= 105: 
-            duck_x += 3
-            duck_y = -1.3/24*(duck_x-65)**2 + 150
-        elif duck_x > 105:
-            while duck_x>25:
-                duck_x-=1
-                duck_y = 50
-            jump = False      
+        if jump == True and duck_y < 192: 
+            duck_y += 24
+
+        if jump == True and duck_y >= 192:      
+            jump = False
+            duck_y -= 24
         
-        if duck_x-25<=person_x<=duck_x+25 and duck_y-25<=50<=duck_y+25:
+        if jump == False and duck_y > 48:
+            duck_y -= 24
+
+
+        if duck_x-25<610-person_x<duck_x+25 and duck_y-25<70-person_y<duck_y+25:
             current_screen = "died"
+            timing = False
+
     
     if current_screen == "died":
         arcade.set_background_color(arcade.color.BLACK)
@@ -204,9 +204,10 @@ def on_key_release(key, modifiers):
 
 
 def on_mouse_press(x, y, button, modifiers):
-    global current_screen
+    global current_screen, timing
     if 235<x<385 and 80<y<180 and current_screen == "died":
         current_screen = "start"
+        timing = True
 
 
 def setup():
