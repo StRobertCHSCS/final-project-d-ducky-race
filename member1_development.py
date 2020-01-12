@@ -25,6 +25,7 @@ second_int = random.randint(1, 9)
 elapsed_time = 0
 timing  = True
 score = 0
+current_score = 0
 high_score = 0
 person_x = 0
 person_y = 0
@@ -38,7 +39,7 @@ for _ in range(4):
     y_person.append(y)
 
 def on_update(delta_time):
-    global elapsed_time, score, x_person
+    global elapsed_time, score, x_person, current_score
     if timing == True:
         elapsed_time += delta_time
         elapsed_time = round(elapsed_time, 2)
@@ -149,7 +150,7 @@ def on_draw():
         dead_emoji = arcade.load_texture("Dead emoji.jpg")
         arcade.draw_texture_rectangle(300, 370, 200, 100, dead_emoji, 0)
 
-        arcade.draw_text("You have died.\nYour final score is "+str(score), 50, 200, arcade.color.WHITE, 50)
+        arcade.draw_text("You have died.\nYour final score is "+str(current_score), 50, 200, arcade.color.WHITE, 50)
 
         arcade.draw_rectangle_filled(300, 130, 150, 100, arcade.color.PINK_LAVENDER)
         arcade.draw_text("PLAY AGAIN", 255, 123, arcade.color.BLACK, 15)
