@@ -17,7 +17,7 @@ green = 279
 duck_x = 280
 duck_y = 48
 jump = False
-current_screen = "died"
+current_screen = "menu"
 difference = 0
 counter = 0
 first_int = random.randint(1, 9)
@@ -50,6 +50,7 @@ def on_update(delta_time):
             f = open("high_score", "r+")
             if f.mode == "r+":
                 score = f.read()
+                current_score = f.read()
                 f.close()
         if elapsed_time > float(score):
             f = open("high_score", "w+")
@@ -90,11 +91,13 @@ def on_draw():
     #menu screen
     if current_screen == "menu":
         arcade.set_background_color(arcade.color.PINK_PEARL)
-        arcade.draw_text("WELCOME TO D DUCKY RACE!\nPress Any Key to Start!", 100, 300, arcade.color.BLACK, 30)
+        arcade.draw_text("WELCOME TO D DUCKY RACE!\nPress Space to Start!", 100, 300, arcade.color.BLACK, 30)
         arcade.draw_text("Click H for high score", 100, 100, arcade.color.BLACK, 30)
+        #loops the green stripe
         for num in range(10):
             green += 8
             arcade.draw_rectangle_filled(0, 225, 1 - green, 60, arcade.color.GREEN)
+
     #high score screen
     if current_screen == "high_score":
         arcade.draw_text(str(high_score), WIDTH / 2, HEIGHT / 2, arcade.color.GUPPIE_GREEN, 80)
@@ -104,10 +107,11 @@ def on_draw():
         arcade.set_background_color(arcade.color.LIGHT_BLUE)
         arcade.draw_text(str(elapsed_time), WIDTH / 2, HEIGHT / 2, arcade.color.GUPPIE_GREEN, 25)
 
+        #spawn the poachers
         for x, y in zip(x_person, y_person):
             draw_person(x, y)
-            person_x = x
-            person_y = y
+        
+        #does the subtraction problems (1 digit only)
         counter += 1
         if 10<=counter<40:
             if first_int > second_int:
@@ -132,9 +136,9 @@ def on_draw():
         
         if jump == False and duck_y > 48:
             duck_y -= 24
-
+        
         #collision detection
-        if (duck_x-25<610-person_x<duck_x+25 and duck_y-25<70-person_y<duck_y+25) or (duck_x-5<610-person_x<duck_x+25 and duck_y+13<70-person_y<duck_y+43):
+        if (duck_x-25<610-x<duck_x+25 and duck_y-25<70-y<duck_y+25) or (duck_x-5<610-x<duck_x+25 and duck_y+13<70-y<duck_y+43):
             current_screen = "died"
             timing = False
   
@@ -163,6 +167,7 @@ def on_key_press(key, modifiers):
             f = open("high_score", "r")
             high_score = f.read()
             f.close()
+    
     if key == arcade.key.ESCAPE:
         current_screen = "menu"
 
@@ -187,8 +192,12 @@ def on_key_press(key, modifiers):
             jump = True
         if key == arcade.key.A:
             timing = False
-        if key ==arcade.key.ESCAPE:
+        if key == arcade.key.ESCAPE:
             current_screen = "menu"
+        
+        #for troubleshooting purposes
+        if key == arcade.key.D:
+            current_screen = "died"
     
 
 def on_key_release(key, modifiers):
