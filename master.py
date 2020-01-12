@@ -157,7 +157,8 @@ def on_draw():
             timing = False
         if (duck_x-25<210-person3_x<duck_x+25 and duck_y-25<70-person3_y<duck_y+25) or (duck_x-5<210-person3_x<duck_x+25 and duck_y+13<70-person3_y<duck_y+43):
             current_screen = "died"
-            timing = False   
+            timing = False
+        
 
         
 

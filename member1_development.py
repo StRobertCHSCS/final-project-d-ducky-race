@@ -13,6 +13,7 @@ import random
 WIDTH = 640
 HEIGHT = 480
 
+green = 279
 duck_x = 280
 duck_y = 48
 jump = False
@@ -27,14 +28,17 @@ score = 0
 high_score = 0
 person_x = 0
 person_y = 0
-person2_x = 0
-person2_y = 0
-person3_x = 0
-person3_y = 0
 
+x_person = []
+y_person = []
+
+for _ in range(4):
+    x_person = [random.randint(0, 100), random.randint(300, 400), random.randint(500, 600), random.randint(800, 900)]
+    y = 0
+    y_person.append(y)
 
 def on_update(delta_time):
-    global elapsed_time, score
+    global elapsed_time, score, x_person
     if timing == True:
         elapsed_time += delta_time
         elapsed_time = round(elapsed_time, 2)
@@ -55,6 +59,12 @@ def on_update(delta_time):
             if f.mode == "r+":
                 score = f.read()
                 f.close()
+    for index in range(len(x_person)):
+        if x_person[index] < 900:
+            x_person[index] +=20
+        if x_person[index] > 900:
+            x_person[index] = random.randint(index*100, (index+1)*100)
+        
 
 
 
@@ -73,53 +83,31 @@ def draw_person(x, y):
     arcade.draw_rectangle_filled(600-x, 25-y, 30, 3, arcade.color.BLACK, 50)
     arcade.draw_rectangle_filled(620-x, 25-y, 30, 3, arcade.color.BLACK, 140)
 
-def draw_person2(x, y):
-    arcade.draw_rectangle_filled(410-x, 50-y, 3, 30, arcade.color.BLACK)
-    arcade.draw_circle_filled(410-x, 70-y, 15, arcade.color.BLACK)
-    arcade.draw_rectangle_filled(410-x, 50-y, 40, 3, arcade.color.BLACK)
-    arcade.draw_rectangle_filled(400-x, 25-y, 30, 3, arcade.color.BLACK, 50)
-    arcade.draw_rectangle_filled(420-x, 25-y, 30, 3, arcade.color.BLACK, 140)
-
-def draw_person3(x, y):
-    arcade.draw_rectangle_filled(210-x, 50-y, 3, 30, arcade.color.BLACK)
-    arcade.draw_circle_filled(210-x, 70-y, 15, arcade.color.BLACK)
-    arcade.draw_rectangle_filled(210-x, 50-y, 40, 3, arcade.color.BLACK)
-    arcade.draw_rectangle_filled(200-x, 25-y, 30, 3, arcade.color.BLACK, 50)
-    arcade.draw_rectangle_filled(220-x, 25-y, 30, 3, arcade.color.BLACK, 140)
-
 def on_draw(): 
-    global duck_x, duck_y, current_screen, counter, first_int, second_int, jump, difference, person_x, person_y, person2_x, person2_y, person3_x, person3_y, timing
+    global duck_x, duck_y, current_screen, counter, first_int, second_int, jump, difference, x, y, person_x, person_y, timing, green
     arcade.start_render()
-    #does random subtraction problems (1 digit only)
+
+    #menu screen
     if current_screen == "menu":
         arcade.set_background_color(arcade.color.PINK_PEARL)
         arcade.draw_text("WELCOME TO D DUCKY RACE!\nPress Any Key to Start!", 100, 300, arcade.color.BLACK, 30)
         arcade.draw_text("Click H for high score", 100, 100, arcade.color.BLACK, 30)
+        for num in range(10):
+            green += 8
+            arcade.draw_rectangle_filled(0, 225, 1 - green, 60, arcade.color.GREEN)
+    #high score screen
     if current_screen == "high_score":
         arcade.draw_text(str(high_score), WIDTH / 2, HEIGHT / 2, arcade.color.GUPPIE_GREEN, 80)
+    
+    #playing screen
     if current_screen == "start":
         arcade.set_background_color(arcade.color.LIGHT_BLUE)
         arcade.draw_text(str(elapsed_time), WIDTH / 2, HEIGHT / 2, arcade.color.GUPPIE_GREEN, 25)
 
-        if person_x < 600:
-            person_x += 20
-            draw_person(person_x, person_y)
-        if person2_x < 400:
-            person2_x += 20
-            draw_person2(person2_x, person2_y)
-        if person3_x < 200:
-            person3_x += 20
-            draw_person3(person3_x, person3_y)
-        if person_x >= 600:
-            person_x = 0
-            draw_person(person_x, person_y)
-        if person2_x >= 400:
-            person2_x = -200
-            draw_person2(person2_x, person2_y)
-        if person3_x > 200:
-            person3_x = -200
-            draw_person3(person3_x, person3_y)
-
+        for x, y in zip(x_person, y_person):
+            draw_person(x, y)
+            person_x = x
+            person_y = y
         counter += 1
         if 10<=counter<40:
             if first_int > second_int:
@@ -149,17 +137,8 @@ def on_draw():
         if (duck_x-25<610-person_x<duck_x+25 and duck_y-25<70-person_y<duck_y+25) or (duck_x-5<610-person_x<duck_x+25 and duck_y+13<70-person_y<duck_y+43):
             current_screen = "died"
             timing = False
-        if (duck_x-25<410-person2_x<duck_x+25 and duck_y-25<70-person2_y<duck_y+25) or (duck_x-5<410-person2_x<duck_x+25 and duck_y+13<70-person_y<duck_y+43):
-            current_screen = "died"
-            timing = False
-        if (duck_x-25<210-person3_x<duck_x+25 and duck_y-25<70-person3_y<duck_y+25) or (duck_x-5<210-person3_x<duck_x+25 and duck_y+13<70-person3_y<duck_y+43):
-            current_screen = "died"
-            timing = False
-        
-    
-
-        
-
+  
+    #dead screen
     if current_screen == "died":
         arcade.set_background_color(arcade.color.BLACK)
 
