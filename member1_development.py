@@ -33,8 +33,9 @@ person_y = 0
 x_person = []
 y_person = []
 
-for _ in range(4):
-    x_person = [random.randint(0, 100), random.randint(300, 400), random.randint(500, 600), random.randint(800, 900)]
+for _ in range(2):
+    x = random.randint(0, 100)
+    x_person.append(x)
     y = 0
     y_person.append(y)
 

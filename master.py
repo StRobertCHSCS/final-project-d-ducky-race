@@ -1,9 +1,8 @@
 """
 --------------------------------------------------------------------------------------------------------------------
-Name:   member1_development.py
-Purpose:    the development of the first member
-
-Author: LMo
+Name:   master.py
+Purpose:    the final code for the game
+Author: SJOh LMo
 Created: 
 --------------------------------------------------------------------------------------------------------------------
 """
@@ -16,7 +15,7 @@ HEIGHT = 480
 duck_x = 280
 duck_y = 48
 jump = False
-current_screen = "died"
+current_screen = "menu"
 difference = 0
 counter = 0
 first_int = random.randint(1, 9)
@@ -67,25 +66,25 @@ def draw_duck(x, y):
     arcade.draw_rectangle_filled(x+10,y-32, 3, 15, arcade.color.BROWN)
 
 def draw_person(x, y):
-    arcade.draw_rectangle_filled(610-x, 50-y, 3, 30, arcade.color.BLACK)
-    arcade.draw_circle_filled(610-x, 70-y, 15, arcade.color.BLACK)
-    arcade.draw_rectangle_filled(610-x, 50-y, 40, 3, arcade.color.BLACK)
-    arcade.draw_rectangle_filled(600-x, 25-y, 30, 3, arcade.color.BLACK, 50)
-    arcade.draw_rectangle_filled(620-x, 25-y, 30, 3, arcade.color.BLACK, 140)
+    arcade.draw_rectangle_filled(1210-x, 50-y, 3, 30, arcade.color.BLACK)
+    arcade.draw_circle_filled(1210-x, 70-y, 15, arcade.color.BLACK)
+    arcade.draw_rectangle_filled(1210-x, 50-y, 40, 3, arcade.color.BLACK)
+    arcade.draw_rectangle_filled(1200-x, 25-y, 30, 3, arcade.color.BLACK, 50)
+    arcade.draw_rectangle_filled(1220-x, 25-y, 30, 3, arcade.color.BLACK, 140)
 
 def draw_person2(x, y):
-    arcade.draw_rectangle_filled(410-x, 50-y, 3, 30, arcade.color.BLACK)
-    arcade.draw_circle_filled(410-x, 70-y, 15, arcade.color.BLACK)
-    arcade.draw_rectangle_filled(410-x, 50-y, 40, 3, arcade.color.BLACK)
-    arcade.draw_rectangle_filled(400-x, 25-y, 30, 3, arcade.color.BLACK, 50)
-    arcade.draw_rectangle_filled(420-x, 25-y, 30, 3, arcade.color.BLACK, 140)
+    arcade.draw_rectangle_filled(1010-x, 50-y, 3, 30, arcade.color.BLACK)
+    arcade.draw_circle_filled(1010-x, 70-y, 15, arcade.color.BLACK)
+    arcade.draw_rectangle_filled(1010-x, 50-y, 40, 3, arcade.color.BLACK)
+    arcade.draw_rectangle_filled(1000-x, 25-y, 30, 3, arcade.color.BLACK, 50)
+    arcade.draw_rectangle_filled(1020-x, 25-y, 30, 3, arcade.color.BLACK, 140)
 
 def draw_person3(x, y):
-    arcade.draw_rectangle_filled(210-x, 50-y, 3, 30, arcade.color.BLACK)
-    arcade.draw_circle_filled(210-x, 70-y, 15, arcade.color.BLACK)
-    arcade.draw_rectangle_filled(210-x, 50-y, 40, 3, arcade.color.BLACK)
-    arcade.draw_rectangle_filled(200-x, 25-y, 30, 3, arcade.color.BLACK, 50)
-    arcade.draw_rectangle_filled(220-x, 25-y, 30, 3, arcade.color.BLACK, 140)
+    arcade.draw_rectangle_filled(810-x, 50-y, 3, 30, arcade.color.BLACK)
+    arcade.draw_circle_filled(810-x, 70-y, 15, arcade.color.BLACK)
+    arcade.draw_rectangle_filled(810-x, 50-y, 40, 3, arcade.color.BLACK)
+    arcade.draw_rectangle_filled(800-x, 25-y, 30, 3, arcade.color.BLACK, 50)
+    arcade.draw_rectangle_filled(820-x, 25-y, 30, 3, arcade.color.BLACK, 140)
 
 def on_draw(): 
     global duck_x, duck_y, current_screen, counter, first_int, second_int, jump, difference, person_x, person_y, person2_x, person2_y, person3_x, person3_y, timing, x
@@ -104,23 +103,23 @@ def on_draw():
         arcade.set_background_color(arcade.color.LIGHT_BLUE)
         arcade.draw_text(str(elapsed_time), WIDTH / 2, HEIGHT / 2, arcade.color.GUPPIE_GREEN, 25)
 
-        if person_x < 600:
+        if person_x < 1200:
             person_x += 20
             draw_person(person_x, person_y)
-        if person2_x < 400:
+        if person2_x < 1000:
             person2_x += 20
             draw_person2(person2_x, person2_y)
-        if person3_x < 200:
+        if person3_x < 800:
             person3_x += 20
             draw_person3(person3_x, person3_y)
-        if person_x >= 600:
-            person_x = 0
+        if person_x >= 1200:
+            person_x = 400
             draw_person(person_x, person_y)
-        if person2_x >= 400:
-            person2_x = -200
+        if person2_x >= 1000:
+            person2_x = 400
             draw_person2(person2_x, person2_y)
-        if person3_x > 200:
-            person3_x = -200
+        if person3_x > 800:
+            person3_x = 400
             draw_person3(person3_x, person3_y)
 
         counter += 1
@@ -149,13 +148,13 @@ def on_draw():
             duck_y -= 24
 
         #collision detection
-        if (duck_x-25<610-person_x<duck_x+25 and duck_y-25<70-person_y<duck_y+25) or (duck_x-5<610-person_x<duck_x+25 and duck_y+13<70-person_y<duck_y+43):
+        if (duck_x-25<1210-person_x<duck_x+25 and duck_y-25<70-person_y<duck_y+25) or (duck_x-5<1210-person_x<duck_x+25 and duck_y+13<70-person_y<duck_y+43):
             current_screen = "died"
             timing = False
-        if (duck_x-25<410-person2_x<duck_x+25 and duck_y-25<70-person2_y<duck_y+25) or (duck_x-5<410-person2_x<duck_x+25 and duck_y+13<70-person_y<duck_y+43):
+        if (duck_x-25<1010-person2_x<duck_x+25 and duck_y-25<70-person2_y<duck_y+25) or (duck_x-5<1010-person2_x<duck_x+25 and duck_y+13<70-person_y<duck_y+43):
             current_screen = "died"
             timing = False
-        if (duck_x-25<210-person3_x<duck_x+25 and duck_y-25<70-person3_y<duck_y+25) or (duck_x-5<210-person3_x<duck_x+25 and duck_y+13<70-person3_y<duck_y+43):
+        if (duck_x-25<810-person3_x<duck_x+25 and duck_y-25<70-person3_y<duck_y+25) or (duck_x-5<8510-person3_x<duck_x+25 and duck_y+13<70-person3_y<duck_y+43):
             current_screen = "died"
             timing = False
         
