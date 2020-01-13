@@ -33,7 +33,7 @@ person3_y = 0
 x = 0
 
 def on_update(delta_time):
-    global elapsed_time, score
+    global elapsed_time, score, current_score
     if timing == True:
         elapsed_time += delta_time
         elapsed_time = round(elapsed_time, 2)
@@ -45,6 +45,7 @@ def on_update(delta_time):
             f = open("high_score", "r+")
             if f.mode == "r+":
                 score = f.read()
+                current_score = score
                 f.close()
         if elapsed_time > float(score):
             f = open("high_score", "w+")
@@ -54,6 +55,7 @@ def on_update(delta_time):
             if f.mode == "r+":
                 score = f.read()
                 f.close()
+            
 
 
 
@@ -86,11 +88,33 @@ def draw_person3(x, y):
     arcade.draw_rectangle_filled(800-x, 25-y, 30, 3, arcade.color.BLACK, 50)
     arcade.draw_rectangle_filled(820-x, 25-y, 30, 3, arcade.color.BLACK, 140)
 
+def people_draw():
+    global person_x, person_y, person2_x, person2_y, person3_x, person3_y
+    if person_x < 1200:
+        person_x += 20
+        draw_person(person_x, person_y)
+    if person2_x < 1000:
+        person2_x += 20
+        draw_person2(person2_x, person2_y)
+    if person3_x < 800:
+        person3_x += 20
+        draw_person3(person3_x, person3_y)
+    if person_x >= 1200:
+        person_x = 400
+        draw_person(person_x, person_y)
+    if person2_x >= 1000:
+        person2_x = 400
+        draw_person2(person2_x, person2_y)
+    if person3_x > 800:
+        person3_x = 400
+        draw_person3(person3_x, person3_y)
+
 def on_draw(): 
     global duck_x, duck_y, current_screen, counter, first_int, second_int, jump, difference, person_x, person_y, person2_x, person2_y, person3_x, person3_y, timing, x
     arcade.start_render()
     #does random subtraction problems (1 digit only)
     if current_screen == "menu":
+        timing = False
         arcade.set_background_color(arcade.color.PINK_PEARL)
         arcade.draw_text("WELCOME TO D DUCKY RACE!\nPress Any Key to Start!", 100, 300, arcade.color.BLACK, 30)
         arcade.draw_text("Click H for high score", 100, 100, arcade.color.BLACK, 30)
@@ -98,29 +122,12 @@ def on_draw():
             x += 8
             arcade.draw_rectangle_filled(0, 225, 1 - x, 60, arcade.color.GREEN)
     if current_screen == "high_score":
-        arcade.draw_text(str(high_score), WIDTH / 2, HEIGHT / 2, arcade.color.GUPPIE_GREEN, 80)
+        arcade.draw_text(str(high_score), 240, 200, arcade.color.GUPPIE_GREEN, 80)
     if current_screen == "start":
         arcade.set_background_color(arcade.color.LIGHT_BLUE)
         arcade.draw_text(str(elapsed_time), WIDTH / 2, HEIGHT / 2, arcade.color.GUPPIE_GREEN, 25)
 
-        if person_x < 1200:
-            person_x += 20
-            draw_person(person_x, person_y)
-        if person2_x < 1000:
-            person2_x += 20
-            draw_person2(person2_x, person2_y)
-        if person3_x < 800:
-            person3_x += 20
-            draw_person3(person3_x, person3_y)
-        if person_x >= 1200:
-            person_x = 400
-            draw_person(person_x, person_y)
-        if person2_x >= 1000:
-            person2_x = 400
-            draw_person2(person2_x, person2_y)
-        if person3_x > 800:
-            person3_x = 400
-            draw_person3(person3_x, person3_y)
+        people_draw()
 
         counter += 1
         if 10<=counter<40:
@@ -151,12 +158,15 @@ def on_draw():
         if (duck_x-25<1210-person_x<duck_x+25 and duck_y-25<70-person_y<duck_y+25) or (duck_x-5<1210-person_x<duck_x+25 and duck_y+13<70-person_y<duck_y+43):
             current_screen = "died"
             timing = False
+            people_draw()
         if (duck_x-25<1010-person2_x<duck_x+25 and duck_y-25<70-person2_y<duck_y+25) or (duck_x-5<1010-person2_x<duck_x+25 and duck_y+13<70-person_y<duck_y+43):
             current_screen = "died"
             timing = False
+            people_draw()
         if (duck_x-25<810-person3_x<duck_x+25 and duck_y-25<70-person3_y<duck_y+25) or (duck_x-5<8510-person3_x<duck_x+25 and duck_y+13<70-person3_y<duck_y+43):
             current_screen = "died"
             timing = False
+            people_draw()
         
 
         
@@ -167,7 +177,7 @@ def on_draw():
         dead_emoji = arcade.load_texture("Dead emoji.jpg")
         arcade.draw_texture_rectangle(300, 370, 200, 100, dead_emoji, 0)
 
-        arcade.draw_text("You have died.\nYour final score is "+str(score), 50, 200, arcade.color.WHITE, 50)
+        arcade.draw_text("You have died.\nYour final score is "+str(elapsed_time), 50, 200, arcade.color.WHITE, 40)
 
         arcade.draw_rectangle_filled(300, 130, 150, 100, arcade.color.PINK_LAVENDER)
         arcade.draw_text("PLAY AGAIN", 255, 123, arcade.color.BLACK, 15)
