@@ -209,8 +209,7 @@ def on_key_press(key, modifiers):
             jump = True
         if key == arcade.key.A:
             timing = False
-        if key ==arcade.key.ESCAPE:
-            current_screen = "menu"
+
     
 
 def on_key_release(key, modifiers):
