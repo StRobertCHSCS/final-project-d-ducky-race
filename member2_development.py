@@ -130,14 +130,24 @@ def on_draw():
     if current_screen == "menu":
         timing = False
         arcade.set_background_color(arcade.color.PINK_PEARL)
-        arcade.draw_text("WELCOME TO D DUCKY RACE!\nPress Any Key to Start!", 100, 300, arcade.color.BLACK, 30)
+        arcade.draw_text("WELCOME TO D DUCKY RACE!", 100, 320, arcade.color.BLACK, 30)
+        arcade.draw_text("Press space to play", 100, 270, arcade.color.BLACK, 30)
         arcade.draw_text("Click H for high score", 100, 100, arcade.color.BLACK, 30)
+        arcade.draw_text("Click I for instructions", 100, 140, arcade.color.BLACK, 30)
         for num in range(10):
             x += 8
             arcade.draw_rectangle_filled(0, 225, 1 - x, 60, arcade.color.GREEN)
 #     draws the high score in the high score screen
     if current_screen == "high_score":
         arcade.draw_text(str(high_score), 240, 200, arcade.color.GUPPIE_GREEN, 80)
+
+    if current_screen == "instructions":
+        arcade.draw_text("click the right difference to jump ", 50, 320, arcade.color.BLACK, 30)
+        arcade.draw_text("for example...", 50, 280, arcade.color.BLACK, 30)
+        arcade.draw_text("9 - 7 = 2", 70, 220, arcade.color.BLACK, 30)
+        arcade.draw_text("click 2 to jump", 70, 160, arcade.color.BLACK, 30)
+        arcade.draw_text("to float, press difference repeatedly ", 50, 120, arcade.color.BLACK, 30)
+        
 #     sets the background color to light blue, draws the people and timer
     if current_screen == "start":
         arcade.set_background_color(arcade.color.LIGHT_BLUE)
@@ -212,6 +222,8 @@ def on_key_press(key, modifiers):
             f = open("high_score", "r")
             high_score = f.read()
             f.close()
+        if key == arcade.key.I:
+            current_screen = "instructions"
 #     pressing escape will make the current screen menu
     if key == arcade.key.ESCAPE:
         current_screen = "menu"
