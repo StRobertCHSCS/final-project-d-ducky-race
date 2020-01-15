@@ -247,7 +247,7 @@ def on_key_press(key, modifiers):
     
     Arguments:
         key {key} -- the key being pressed
-        modifiers {} -- [description]
+        modifiers {modifier} -- [modifier keys, i.e alt, shift, control]
     """
     global jump, difference, current_screen, timing, high_score, elapsed_time
     if current_screen == "menu":
@@ -299,8 +299,8 @@ def on_mouse_press(x:float, y:float, button, modifiers):
     Arguments:
         x {float} -- the x value of the mouse press
         y {float} -- the y value of the mouse press
-        button {int} -- the button
-        modifiers {[type]} -- [description]
+        button {button} -- the mouse button
+        modifiers modifiers} -- [modifier keys i.e, shift, alt, control]
     """
     global current_screen, timing
     #this ensures that if the user clicks "play again", it will make the current screen menu and set timing to True
