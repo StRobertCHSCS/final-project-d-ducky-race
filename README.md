@@ -21,4 +21,6 @@ You are able to jump, and keep the duck in the air by continuously pressing the 
 Limitations:
 The collision detection does not pick up on the duck's legs(too difficult otherwise).  You are only able to control the duck's movement upwards.
 
+## SCREEN MOCKUPS
+![Screen Mockup](IMG_1410.JPG)
 
