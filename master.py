@@ -2,7 +2,6 @@
 --------------------------------------------------------------------------------------------------------------------
 Name:   master.py
 Purpose:    the final development of the game
-
 Author: SJOh and LMo
 Created: 
 --------------------------------------------------------------------------------------------------------------------
@@ -219,14 +218,23 @@ def on_draw():
         if (duck_x-25<1210-person_x<duck_x+25 and duck_y-25<70-person_y<duck_y+25) or (duck_x-5<1210-person_x<duck_x+25 and duck_y+13<70-person_y<duck_y+43):
             current_screen = "died"
             timing = False
+            person_x = 0
+            person2_x = 0
+            person3_x = 0
             people_draw()
         if (duck_x-25<1010-person2_x<duck_x+25 and duck_y-25<70-person2_y<duck_y+25) or (duck_x-5<1010-person2_x<duck_x+25 and duck_y+13<70-person_y<duck_y+43):
             current_screen = "died"
             timing = False
+            person_x = 0
+            person2_x = 0
+            person3_x = 0
             people_draw()
         if (duck_x-25<810-person3_x<duck_x+25 and duck_y-25<70-person3_y<duck_y+25) or (duck_x-5<8510-person3_x<duck_x+25 and duck_y+13<70-person3_y<duck_y+43):
             current_screen = "died"
             timing = False
+            person_x = 0
+            person2_x = 0
+            person3_x = 0
             people_draw()  
 
         
