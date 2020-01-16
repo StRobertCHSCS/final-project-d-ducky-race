@@ -308,7 +308,7 @@ def on_mouse_press(x:float, y:float, button, modifiers):
         x {float} -- the x value of the mouse press
         y {float} -- the y value of the mouse press
         button {button} -- the mouse button
-        modifiers modifiers} -- [modifier keys i.e, shift, alt, control]
+        modifiers {modifiers} -- [modifier keys i.e, shift, alt, control]
     """
     global current_screen, timing
     #this ensures that if the user clicks "play again", it will make the current screen menu and set timing to True
